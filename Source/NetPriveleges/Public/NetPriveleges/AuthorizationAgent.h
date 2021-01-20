@@ -85,30 +85,30 @@ public:
 
 };
 
-UINTERFACE(BlueprintType)
-class NETPRIVELEGES_API UCommandValidator : public UInterface
-{
-
-	GENERATED_BODY()
-
-};
-
-class NETPRIVELEGES_API ICommandValidator
-{
-
-	GENERATED_BODY()
-
-public:
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	UPARAM(DisplayName = "Is Authorized") bool HasCommandAuthorization(const FString& commandString);
-
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	void GetAuthorizedCommands(const FString& prefix);
-
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	ECommandExecutionStatus ParseAndExecuteCommand(const FString& commandString, const FString& argString);
-
-};
+//UINTERFACE(BlueprintType)
+//class NETPRIVELEGES_API UCommandValidator : public UInterface
+//{
+//
+//	GENERATED_BODY()
+//
+//};
+//
+//class NETPRIVELEGES_API ICommandValidator
+//{
+//
+//	GENERATED_BODY()
+//
+//public:
+//	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+//	UPARAM(DisplayName = "Is Authorized") bool HasCommandAuthorization(const FString& commandString);
+//
+//	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+//	void GetAuthorizedCommands(const FString& prefix);
+//
+//	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+//	ECommandExecutionStatus ParseAndExecuteCommand(const FString& commandString, const FString& argString);
+//
+//};
 
 UCLASS( ClassGroup=(Authorization), meta=(BlueprintSpawnableComponent) )
 class NETPRIVELEGES_API UAuthorizationAgent : public UActorComponent
