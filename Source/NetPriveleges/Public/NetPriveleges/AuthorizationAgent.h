@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "CommandArgs.h"
 #include "AuthorizationAgent.generated.h"
 
 //~ Execution data
@@ -30,22 +31,6 @@ enum class ECommandExecutionStatus : uint8
 
 };
 
-USTRUCT()
-struct NETPRIVELEGES_API FChatCommandArgs
-{
-
-	GENERATED_BODY();
-
-	void* args;
-	SIZE_T size;
-	int nArgs;
-
-	inline FChatCommandArgs() : args(nullptr), size(0), nArgs(0) {}
-
-	~FChatCommandArgs();
-
-};
-
 //~
 
 //~ Execution Handlers
@@ -64,9 +49,9 @@ public:
 
 	UFunction* FindCommand(const FString& commandString) const;
 
-	ECommandExecutionStatus ParseArguments(const UFunction* const command, const FString& argString, FChatCommandArgs& OutArgs) const;
+	ECommandExecutionStatus ParseArguments(const UFunction* const command, const FString& argString, FCommandArgs& OutArgs) const;
 
-	void ExecuteCommand(const UFunction* const command, const FChatCommandArgs& commandArgs) const;
+	void ExecuteCommand(const UFunction* const command, const FCommandArgs& commandArgs) const;
 
 	//UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	//UPARAM(DisplayName = "Is Authorized") bool HasCommandAuthorization(const FString& commandString);

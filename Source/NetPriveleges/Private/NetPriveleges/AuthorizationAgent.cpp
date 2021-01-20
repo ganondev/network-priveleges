@@ -3,12 +3,6 @@
 
 #include "AuthorizationAgent.h"
 
-FChatCommandArgs::~FChatCommandArgs()
-{
-	//check(!!args == !!nArgs); // TODO fix crashes engine when not launched under debugger
-	if (args) FMemory::Free(args);
-}
-
 // Sets default values for this component's properties
 UAuthorizationAgent::UAuthorizationAgent()
 {
