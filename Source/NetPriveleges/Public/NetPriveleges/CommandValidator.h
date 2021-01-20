@@ -19,14 +19,25 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Network Priveleges - Commands")
 	UPARAM(DisplayName = "Is Authorized") bool HasCommandAuthorization(const FString& commandString);
-	virtual bool HasCommandAuthorization_Implementation(const FString& commandString);
+	inline virtual bool HasCommandAuthorization_Implementation(const FString& commandString)
+	{
+		// TODO log unimplemented
+		return false;
+	}
 	
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Network Priveleges - Commands")
 	void GetAuthorizedCommands(const FString& prefix);
-	virtual void GetAuthorizedCommands_Implementation(const FString& prefix);
+	inline virtual void GetAuthorizedCommands_Implementation(const FString& prefix)
+	{
+		// TODO log unimplemented
+	}
 	
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Network Priveleges - Commands")
 	ECommandExecutionStatus ParseAndExecuteCommand(const FString& commandString, const FString& argString);
-	virtual ECommandExecutionStatus ParseAndExecuteCommand_Implementation(const FString& commandString, const FString& argString);
+	inline virtual ECommandExecutionStatus ParseAndExecuteCommand_Implementation(const FString& commandString, const FString& argString)
+	{
+		// TODO log unimplemented
+		return ECommandExecutionStatus::UnkownError;
+	}
 
 };

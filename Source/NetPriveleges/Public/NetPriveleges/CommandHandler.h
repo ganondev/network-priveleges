@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "CommandExecutionStatus.h"
+#include "CommandArgs.h"
 #include "CommandHandler.generated.h"
 
 UINTERFACE()
@@ -20,6 +21,6 @@ public:
 
 	ECommandExecutionStatus ParseArguments(const UFunction* const command, const FString& argString, FCommandArgs& OutArgs) const;
 
-	void ExecuteCommand(const UFunction* const command, const FCommandArgs& commandArgs) const;
+	void ExecuteCommand(UFunction* const command, const FCommandArgs& commandArgs) const;
 
 };

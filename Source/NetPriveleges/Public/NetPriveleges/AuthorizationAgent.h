@@ -15,7 +15,7 @@ DECLARE_LOG_CATEGORY_EXTERN(NetPriveleges, Verbose, All);
 //~ Execution Handlers
 
 UCLASS( ClassGroup=(Authorization), meta=(BlueprintSpawnableComponent) )
-class NETPRIVELEGES_API UAuthorizationAgent : public UActorComponent, public ICommandHandler//, public ICommandValidator
+class NETPRIVELEGES_API UAuthorizationAgent : public UActorComponent, public ICommandHandler, public ICommandValidator
 {
 	GENERATED_BODY()
 
@@ -38,11 +38,11 @@ public:
 	//~
 
 	//~ICommandValidator Implementations
-	/*virtual bool HasCommandAuthorization_Implementation(const FString& commandString) override;
+	virtual bool HasCommandAuthorization_Implementation(const FString& commandString) override;
 
-	virtual void GetAuthorizedCommands_Implementation(const FString& prefix) override;
+	//virtual void GetAuthorizedCommands_Implementation(const FString& prefix) override;
 
-	virtual ECommandExecutionStatus ParseAndExecuteCommand_Implementation(const FString& commandString, const FString& argString) override;*/
+	virtual ECommandExecutionStatus ParseAndExecuteCommand_Implementation(const FString& commandString, const FString& argString) override;
 	//~
 		
 };

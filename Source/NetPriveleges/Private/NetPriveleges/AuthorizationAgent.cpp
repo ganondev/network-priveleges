@@ -27,10 +27,7 @@ void UAuthorizationAgent::BeginPlay()
 
 UFunction* UAuthorizationAgent::FindCommand(const FString& commandString) const
 {
-	FString funcName(TEXT("Command_"));
-	funcName += commandString;
-
-	return FindFunction(FName(*funcName));
+	return FindFunction(FName(*commandString));
 }
 
 ECommandExecutionStatus UAuthorizationAgent::ParseArguments(const UFunction* const command, const FString& argString, FCommandArgs& OutArgs)
@@ -89,7 +86,7 @@ ECommandExecutionStatus UAuthorizationAgent::ParseArguments(const UFunction* con
 param_miscount:
 
 	FMemory::Free(argumentBuffer);
-	UE_LOG(NetPriveleges, Error, TEXT("Command \"%s\" requires %d arguments but too few (%d) were provided"), TEXT("test"), command->NumParms, OutArgs.nArgs);
+	UE_LOG(NetPriveleges, Error, TEXT("The issued command requires %d arguments but too few (%d) were provided"), command->NumParms, OutArgs.nArgs);
 	return ECommandExecutionStatus::ParameterMiscount;
 
 invalid_param:
@@ -111,19 +108,41 @@ void UAuthorizationAgent::ExecuteCommand(UFunction* const command, const FComman
 
 }
 
-//bool UAuthorizationAgent::HasCommandAuthorization_Implementation(const FString& commandString)
-//{
-//	// TODO
-//	return true;
-//}
-//
+bool UAuthorizationAgent::HasCommandAuthorization_Implementation(const FString& commandString)
+{
+
+	UFunction * targetFunction = FindCommand(commandString);
+
+	return (bool)targetFunction;
+
+}
+
 //void UAuthorizationAgent::GetAuthorizedCommands_Implementation(const FString& prefix)
 //{
 //	// TODO
 //}
-//
-//ECommandExecutionStatus UAuthorizationAgent::ParseAndExecuteCommand_Implementation(const FString& commandString, const FString& argString)
-//{
-//	// TODO
-//	return ECommandExecutionStatus::UnkownError;
-//}
+
+/* TODO Maybe do a separate parse-only function for validating arguments?*/
+ECommandExecutionStatus UAuthorizationAgent::ParseAndExecuteCommand_Implementation(const FString& commandString, const FString& argString)
+{
+
+	ECommandExecutionStatus result = ECommandExecutionStatus::NotAuthorized;
+
+	if (UFunction * command = FindCommand(commandString))
+	{
+
+		FCommandArgs args;
+		if ((result = ParseArguments(command, argString, args)) == ECommandExecutionStatus::Parsed)
+		{
+
+			/* TODO Can we figure out if this failed/would fail? */
+			ExecuteCommand(command, args);
+			result = ECommandExecutionStatus::Successful;
+
+		}
+
+	}
+	
+	return result;
+
+}
