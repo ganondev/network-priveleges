@@ -7,7 +7,7 @@
 #include "AuthorizationAgent.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS( ClassGroup=(Authorization), meta=(BlueprintSpawnableComponent) )
 class NETPRIVELEGES_API UAuthorizationAgent : public UActorComponent
 {
 	GENERATED_BODY()
