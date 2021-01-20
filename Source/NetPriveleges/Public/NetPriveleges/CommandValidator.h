@@ -14,11 +14,11 @@ class ICommandValidator
     GENERATED_BODY()
 public:
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interface Functions")
-        void FooNative();
+    void FooNative();
     virtual void FooNative_Implementation();
 
     UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Interface Functions")
-        void FooImplmentable_Implementation();
+    void FooImplmentable_Implementation();
 };
 
 //UINTERFACE(Blueprintable)
