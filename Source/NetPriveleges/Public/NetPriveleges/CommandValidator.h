@@ -33,11 +33,11 @@ public:
 	}
 	
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Network Priveleges - Commands")
-	ECommandExecutionStatus ParseAndExecuteCommand(const FString& commandString, const FString& argString);
-	inline virtual ECommandExecutionStatus ParseAndExecuteCommand_Implementation(const FString& commandString, const FString& argString)
+	ECommandExecutionStatus ParseAndExecuteCommand(const FString& commandString, const TArray<FString>& args);
+	inline virtual ECommandExecutionStatus ParseAndExecuteCommand_Implementation(const FString& commandString, const TArray<FString>& args)
 	{
 		// TODO log unimplemented
-		return ECommandExecutionStatus::UnkownError;
+		return ECommandExecutionStatus::UnknownError;
 	}
 
 };

@@ -32,7 +32,7 @@ public:
 	//~ ICommandHandler Implementations
 	UFunction* FindCommand(const FString& commandString) const;
 
-	ECommandExecutionStatus ParseArguments(const UFunction* const command, const FString& argString, FCommandArgs& OutArgs);
+	ECommandExecutionStatus ParseArguments(const UFunction* const command, const TArray<FString>& args, FCommandArgs& OutArgs);
 
 	void ExecuteCommand(UFunction* const command, const FCommandArgs& commandArgs);
 	//~
@@ -42,7 +42,7 @@ public:
 
 	//virtual void GetAuthorizedCommands_Implementation(const FString& prefix) override;
 
-	virtual ECommandExecutionStatus ParseAndExecuteCommand_Implementation(const FString& commandString, const FString& argString) override;
+	virtual ECommandExecutionStatus ParseAndExecuteCommand_Implementation(const FString& commandString, const TArray<FString>& args) override;
 	//~
 		
 };

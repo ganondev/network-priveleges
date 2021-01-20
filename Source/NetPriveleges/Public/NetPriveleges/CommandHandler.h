@@ -19,7 +19,7 @@ public:
 
 	UFunction* FindCommand(const FString& commandString) const;
 
-	ECommandExecutionStatus ParseArguments(const UFunction* const command, const FString& argString, FCommandArgs& OutArgs) const;
+	ECommandExecutionStatus ParseArguments(const UFunction* const command, const TArray<FString>& args, FCommandArgs& OutArgs) const;
 
 	void ExecuteCommand(UFunction* const command, const FCommandArgs& commandArgs) const;
 

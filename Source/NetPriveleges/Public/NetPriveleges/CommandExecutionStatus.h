@@ -16,7 +16,7 @@ enum class ECommandExecutionStatus : uint8
 
 	Parsed				UMETA(DisplayName = "Parsed"),
 
-	UnkownError			UMETA(DisplayName = "Unknown Error"),
+	UnknownError		UMETA(DisplayName = "Unknown Error"),
 
 	/* An error occurred as a result of circumstances beyond this user's control, such as a lack of available memory. */
 	NonUserError		UMETA(DisplayName = "Non User Error"),

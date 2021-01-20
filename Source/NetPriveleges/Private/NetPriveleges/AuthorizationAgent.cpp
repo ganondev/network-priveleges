@@ -30,31 +30,23 @@ UFunction* UAuthorizationAgent::FindCommand(const FString& commandString) const
 	return FindFunction(FName(*commandString));
 }
 
-ECommandExecutionStatus UAuthorizationAgent::ParseArguments(const UFunction* const command, const FString& argString, FCommandArgs& OutArgs)
+ECommandExecutionStatus UAuthorizationAgent::ParseArguments(const UFunction* const command, const TArray<FString>& args, FCommandArgs& OutArgs)
 {
 
 	check(command);
 	check(!OutArgs.nArgs);
+	
+	if (command->NumParms != args.Num()) goto param_miscount;
 
 	void* argumentBuffer = FMemory::MallocZeroed(command->ParmsSize);
-
-	if (!argumentBuffer) return ECommandExecutionStatus::NonUserError;
-
-	FString remainingArgs = argString.TrimStartAndEnd();
+	if (!argumentBuffer) goto non_user_error;
 
 	for (TFieldIterator<FProperty> PropertyIterator(command); PropertyIterator; ++PropertyIterator, OutArgs.nArgs++)
 	{
 
 		//TODO handle default parameters
 
-		FString arg;
-		if (remainingArgs.Split(FString(TEXT(" ")), &arg, &remainingArgs, ESearchCase::IgnoreCase, ESearchDir::FromEnd))
-		{
-			remainingArgs.TrimEndInline();
-		}
-		else if (remainingArgs.IsEmpty()) goto param_miscount;
-		else arg = remainingArgs;
-
+		FString arg = args[OutArgs.nArgs];
 		arg.TrimStartAndEndInline();
 		FProperty* Property = *PropertyIterator;
 		FFieldClass* c = Property->GetClass();
@@ -84,8 +76,6 @@ ECommandExecutionStatus UAuthorizationAgent::ParseArguments(const UFunction* con
 	return ECommandExecutionStatus::Parsed;
 
 param_miscount:
-
-	FMemory::Free(argumentBuffer);
 	UE_LOG(NetPriveleges, Error, TEXT("The issued command requires %d arguments but too few (%d) were provided"), command->NumParms, OutArgs.nArgs);
 	return ECommandExecutionStatus::ParameterMiscount;
 
@@ -93,6 +83,10 @@ invalid_param:
 	FMemory::Free(argumentBuffer);
 	UE_LOG(NetPriveleges, Error, TEXT("Invalid argument type provided"));
 	return ECommandExecutionStatus::InvalidParameter;
+
+non_user_error:
+	UE_LOG(NetPriveleges, Error, TEXT("Failed to allocate the argument buffer."));
+	return ECommandExecutionStatus::NonUserError;
 }
 
 void UAuthorizationAgent::ExecuteCommand(UFunction* const command, const FCommandArgs& commandArgs)
@@ -123,7 +117,7 @@ bool UAuthorizationAgent::HasCommandAuthorization_Implementation(const FString& 
 //}
 
 /* TODO Maybe do a separate parse-only function for validating arguments?*/
-ECommandExecutionStatus UAuthorizationAgent::ParseAndExecuteCommand_Implementation(const FString& commandString, const FString& argString)
+ECommandExecutionStatus UAuthorizationAgent::ParseAndExecuteCommand_Implementation(const FString& commandString, const TArray<FString>& args)
 {
 
 	ECommandExecutionStatus result = ECommandExecutionStatus::NotAuthorized;
@@ -131,12 +125,12 @@ ECommandExecutionStatus UAuthorizationAgent::ParseAndExecuteCommand_Implementati
 	if (UFunction * command = FindCommand(commandString))
 	{
 
-		FCommandArgs args;
-		if ((result = ParseArguments(command, argString, args)) == ECommandExecutionStatus::Parsed)
+		FCommandArgs outArgs;
+		if ((result = ParseArguments(command, args, outArgs)) == ECommandExecutionStatus::Parsed)
 		{
 
 			/* TODO Can we figure out if this failed/would fail? */
-			ExecuteCommand(command, args);
+			ExecuteCommand(command, outArgs);
 			result = ECommandExecutionStatus::Successful;
 
 		}

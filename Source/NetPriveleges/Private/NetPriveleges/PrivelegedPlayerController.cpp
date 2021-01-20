@@ -8,9 +8,9 @@ UFunction* APrivelegedPlayerController::FindCommand(const FString& commandString
     return AuthorizationComponent->FindCommand(commandString);
 }
 
-ECommandExecutionStatus APrivelegedPlayerController::ParseArguments(const UFunction* const command, const FString& argString, FCommandArgs& OutArgs) const
+ECommandExecutionStatus APrivelegedPlayerController::ParseArguments(const UFunction* const command, const TArray<FString>& args, FCommandArgs& OutArgs) const
 {
-    return AuthorizationComponent->ParseArguments(command, argString, OutArgs);
+    return AuthorizationComponent->ParseArguments(command, args, OutArgs);
 }
 
 void APrivelegedPlayerController::ExecuteCommand(UFunction* const command, const FCommandArgs& commandArgs) const
@@ -23,12 +23,7 @@ bool APrivelegedPlayerController::HasCommandAuthorization_Implementation(const F
     return AuthorizationComponent->HasCommandAuthorization(commandString);
 }
 
-ECommandExecutionStatus APrivelegedPlayerController::ParseAndExecuteCommand_Implementation(const FString& commandString, const FString& argString)
+ECommandExecutionStatus APrivelegedPlayerController::ParseAndExecuteCommand_Implementation(const FString& commandString, const TArray<FString>& args)
 {
-    return AuthorizationComponent->Execute_ParseAndExecuteCommand(AuthorizationComponent, commandString, argString);
-}
-
-void APrivelegedPlayerController::test()
-{
-
+    return AuthorizationComponent->Execute_ParseAndExecuteCommand(AuthorizationComponent, commandString, args);
 }
