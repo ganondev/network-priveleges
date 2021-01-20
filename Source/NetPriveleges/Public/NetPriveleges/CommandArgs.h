@@ -5,7 +5,7 @@
 #include "CommandArgs.generated.h"
 
 USTRUCT()
-struct FCommandArgs
+struct NETPRIVELEGES_API FCommandArgs
 {
 
     GENERATED_BODY()
